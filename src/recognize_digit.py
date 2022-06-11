@@ -37,15 +37,12 @@ loaded_model = MyNet()
 loaded_model.load_state_dict(torch.load(FILE))
 loaded_model.eval()
 
-# examples = iter(test_loader)
-# for i in range(random.randint(2, 500)):
-#     example_data, example_targets = examples.next()
-
-# output = loaded_model(example_data)
 output = loaded_model(my_tensor)
 _, pred = torch.max(output.data, 1)
+percent_output = torch.softmax(output.data, 1)
 plt.subplot(2,3, 1)
 int_pred = int(pred[0])
 plt.title(int_pred)
+print('Accuracy:', int(percent_output[0][int_pred].item() * 100), '%')
 plt.imshow(img, cmap='gray')
 plt.show()
